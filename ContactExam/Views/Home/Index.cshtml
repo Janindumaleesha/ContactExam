@@ -1,0 +1,107 @@
+﻿@model ContactExam.Models.ContactViewModel;
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container">
+
+    <form asp-action="CreateEndUpdate" id="myForm">
+        <div class="row">
+            <div class="col">
+                <input type="hidden" asp-for="ID" id="ID" />
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Name</label>
+                    <input type="text" asp-for="Name" class="form-control" id="Name">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleFormControlTextarea1" class="form-label">Address</label>
+                    <textarea asp-for="Address" class="form-control" id="Address" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Telephone</label>
+                    <input type="number" asp-for="Tel" class="form-control" id="Telephone">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Mobile</label>
+                    <input type="number" asp-for="Mobile" class="form-control" id="Mobile">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Email</label>
+                    <input type="email" asp-for="Email" class="form-control" id="Email">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Counties</label>
+                    <select class="form-select" 
+                        asp-for="CountryID"
+                        asp-items="new SelectList(Model.countries, nameof(Country.CountryID), nameof(Country.DCountry))"
+                            aria-label="Default select example" id="CountryID">
+                    </select>
+                </div>
+            
+            </div>
+        </div>
+
+        <button type="button" onclick="resetForm()" class="btn btn-primary">New</button>
+        <button type="submit" value="CreateEndUpdate" class="btn btn-primary">Save</button>
+        <button type="submit" value="CreateEndUpdate" class="btn btn-primary">Update</button>
+        <button type="submit" asp-action="DeleteConfirmed" class="btn btn-primary">Delete</button>
+
+    </form>
+    
+
+    <table class="table table-hover" id="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Address</th>
+                <th scope="col">Telephone</th>
+                <th scope="col">Mobile</th>
+                <th scope="col">Email</th>
+                <th scope="col">Country</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.Contact)
+            {
+                <tr>
+                    <th scope="row">@item.ContactID</th>
+                    <td>@item.Name</td>
+                    <td>@item.Address</td>
+                    <td>@item.Tel</td>
+                    <td>@item.Mobile</td>
+                    <td>@item.Email</td>
+                    <td>@item.CountryID</td>
+                </tr>
+                
+            }
+            
+        </tbody>
+    </table>
+    <script>
+
+        var table = document.getElementById('table');
+
+        for(var i = 1; i < table.rows.length; i++)
+        {
+            table.rows[i].onclick = function()
+            {
+                document.getElementById("ID").value = this.cells[0].innerHTML;
+                document.getElementById("Name").value = this.cells[1].innerHTML;
+                document.getElementById("Address").value = this.cells[2].innerHTML;
+                document.getElementById("Telephone").value = this.cells[3].innerHTML;
+                document.getElementById("Mobile").value = this.cells[4].innerHTML;
+                document.getElementById("Email").value = this.cells[5].innerHTML;
+            };
+        }
+
+        function resetForm(){
+            document.getElementById("myForm").reset();
+        }
+
+    </script>
+    
+    
+</div>

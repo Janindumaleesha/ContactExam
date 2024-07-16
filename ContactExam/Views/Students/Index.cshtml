@@ -1,0 +1,69 @@
+﻿@model ContactExam.Models.StudentCourseViewModel;
+
+<div class="container">
+    <form asp-action="CreateAndUpdate" id="myForm">
+        <input type="hidden" asp-for="Id" id="Id" />
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Name</label>
+            <input type="text" asp-for="Name" class="form-control" id="Name">
+        </div>
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Email</label>
+            <input type="email" asp-for="Email" class="form-control" id="Email">
+        </div>
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Course</label>
+            <select class="form-select" id="Course"
+                asp-for="CourseId" 
+                asp-items="new SelectList(Model.Courses,nameof(Course.Id),nameof(Course.Name))" aria-label="Default select example">
+            </select>
+        </div>     
+
+        <button type="button" onclick="resetForm()" class="btn btn-primary">New</button>
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="submit" class="btn btn-primary">Edit</button>
+        <button type="submit" asp-action="Delete" class="btn btn-danger">Delete</button>
+    </form>
+
+    <table class="table table-hover" id="table">
+        <thead>
+            <tr>
+                <th>Student Id</th>
+                <th>Student Name</th>
+                <th>Student Email</th>
+                <th>Student Course</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in ViewBag.Students)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Name</td>
+                    <td>@item.Email</td>
+                    <td>@item.Course</td>
+                </tr>               
+            }
+            
+        </tbody>
+    </table>
+
+    <script>
+        var table = document.getElementById('table');
+
+        for (var i = 1; i < table.rows.length;i++){
+
+            table.rows[i].onclick = function () {
+                document.getElementById("Id").value = this.cells[0].innerHTML;
+                document.getElementById("Name").value = this.cells[1].innerHTML;
+                document.getElementById("Email").value = this.cells[2].innerHTML;
+                document.getElementById("Course").value = this.cells[3].innerHTML;
+            };
+
+        }
+
+        function resetForm(){
+            document.getElementById("myForm").reset();
+        }
+    </script>
+</div>

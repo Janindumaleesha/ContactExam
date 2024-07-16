@@ -1,0 +1,35 @@
+﻿@model ContactExam.Models.Course;
+
+<div class="container">
+    <h1>Add And Display Course List</h1>
+
+    <form asp-action="Create">
+        <div class="mb-3">
+            <label class="form-label">Course Name</label>
+            <input type="text" asp-for="Name" class="form-control" id="" placeholder="Enter course name">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>CourseID</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach(var item in ViewBag.Courses)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Name</td>
+                    </tr>
+                }
+            }
+            
+        </tbody>
+    </table>
+</div>
